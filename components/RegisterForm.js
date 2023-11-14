@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { registerUser } from '../utils/auth'; // Update with path to registerUser
+import { registerUser } from '../utils/auth';
 
 function RegisterForm({ user, updateUser }) {
   const [formData, setFormData] = useState({
-    bio: '',
+    firstName: '',
+    lastName: '',
     uid: user.uid,
   });
 
@@ -17,10 +18,16 @@ function RegisterForm({ user, updateUser }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gamer Bio</Form.Label>
-        <Form.Control as="textarea" name="bio" required placeholder="Enter your Bio" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
-        <Form.Text className="text-muted">Let other gamers know a little bit about you...</Form.Text>
+      <h2>Please Register</h2>
+
+      <Form.Group className="mb-3" controlId="formFirstName">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control type="text" name="firstName" required placeholder="Enter your first name" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formLastName">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control type="text" name="lastName" required placeholder="Enter your last name" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
       </Form.Group>
       <Button variant="primary" type="submit">
         Submit

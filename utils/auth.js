@@ -2,23 +2,30 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { clientCredentials } from './client';
 
+const dbUrl = clientCredentials.databaseURL;
+
 const checkUser = (uid) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/checkuser`, {
-    method: 'POST',
-    body: JSON.stringify({
-      uid,
-    }),
+  fetch(`${dbUrl}/api/checkuser/${uid}`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
   })
-    .then((resp) => resolve(resp.json()))
-    .catch(reject);
+  .then((resp) => {
+    if (resp.status === 404) {
+      resolve({ notFound: true });
+    }
+    else {
+      resolve(resp.json());
+    }
+  })
+  .catch(reject);
 });
 
+
 const registerUser = (userInfo) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/register`, {
+  fetch(`${dbUrl}/api/user/create`, {
     method: 'POST',
     body: JSON.stringify(userInfo),
     headers: {
@@ -32,6 +39,7 @@ const registerUser = (userInfo) => new Promise((resolve, reject) => {
 
 const signIn = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
+  console.log('PROVIDER: ', provider);
   firebase.auth().signInWithPopup(provider);
 };
 
