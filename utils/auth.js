@@ -12,17 +12,15 @@ const checkUser = (uid) => new Promise((resolve, reject) => {
       Accept: 'application/json',
     },
   })
-  .then((resp) => {
-    if (resp.status === 404) {
-      resolve({ notFound: true });
-    }
-    else {
-      resolve(resp.json());
-    }
-  })
-  .catch(reject);
+    .then((resp) => {
+      if (resp.status === 404) {
+        resolve({ notFound: true });
+      } else {
+        resolve(resp.json());
+      }
+    })
+    .catch(reject);
 });
-
 
 const registerUser = (userInfo) => new Promise((resolve, reject) => {
   fetch(`${dbUrl}/api/user/create`, {
@@ -39,7 +37,6 @@ const registerUser = (userInfo) => new Promise((resolve, reject) => {
 
 const signIn = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
-  console.log('PROVIDER: ', provider);
   firebase.auth().signInWithPopup(provider);
 };
 

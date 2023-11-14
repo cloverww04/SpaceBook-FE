@@ -18,7 +18,7 @@ function RegisterForm({ user, updateUser }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h2>Please Register</h2>
+      <h1>Please Register</h1>
 
       <Form.Group className="mb-3" controlId="formFirstName">
         <Form.Label>First Name</Form.Label>
