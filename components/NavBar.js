@@ -23,7 +23,7 @@ export default function NavBar() {
             <Link passHref href="/">
               <Nav.Link>Home</Nav.Link>
             </Link>
-            <Link passHref href="/delete-me">
+            <Link passHref href="/createContent">
               <Nav.Link>Create a Post</Nav.Link>
             </Link>
             <Button

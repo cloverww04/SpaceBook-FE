@@ -10,11 +10,13 @@ function Home() {
   const [spaceContent, setSpaceContent] = useState([]);
 
   console.log(spaceContent);
+  console.log(user);
 
   useEffect(() => {
-    // Fetch space content when the component mounts
     getAllContent()
-      .then((data) => setSpaceContent(data))
+      .then((data) => {
+        setSpaceContent(data);
+      })
       .catch((error) => console.error(error));
   }, []);
 
@@ -42,7 +44,7 @@ function Home() {
               <Card.Text className="position-absolute top-0 end-1 m-2">
                 Posted by: {content.user.firstName} {content.user.lastName}
               </Card.Text>
-              <Card.Header>#{content.type.type}</Card.Header>
+              <Card.Header>#{content.type ? content.type.type : 'Unknown Type'}</Card.Header>
               <Card.Body>
                 <Card.Title>{content.title}</Card.Title>
                 <Card.Text>{content.description}</Card.Text>
