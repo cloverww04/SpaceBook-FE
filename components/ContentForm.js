@@ -7,6 +7,7 @@ import { getAllObjects } from '../api/spaceObjectData';
 import { checkUser } from '../utils/auth';
 import { useAuth } from '../utils/context/authContext';
 import { createContent, updateContent } from '../api/spaceContentData';
+import { createSpaceObjectContent, updateSpaceObjectContent } from '../api/spaceObjectContent';
 
 const initialState = {
   title: '',
@@ -38,7 +39,8 @@ export default function ContentForm({ obj }) {
 
     setFormData((prevState) => ({
       ...prevState,
-      [name]: name === 'typeId' || name === 'spaceObjectId' ? parseInt(value, 10) : value,
+      [name]: name === 'typeId' ? parseInt(value, 10) : value,
+      spaceObjectId: name === 'spaceObjectId' ? parseInt(value, 10) : prevState.spaceObjectId,
     }));
   };
 
@@ -47,12 +49,20 @@ export default function ContentForm({ obj }) {
     if (obj.id) {
       const payload = { ...formData, contentId: obj.id };
       updateContent(payload)
+        .then((response) => updateSpaceObjectContent(response.id, response.spaceObjectId))
         .then(router.push('/'));
     } else {
       const payload = { ...formData, createdOn: new Date(Date.now()), userId: user.userId };
       console.log('PAYLOAD: ', payload);
       createContent(payload)
-        .then(router.push('/'))
+        .then((response) => {
+          console.log('RESPONSE: ', response);
+          const createdContentId = response.contentId;
+          return createSpaceObjectContent(createdContentId, formData.spaceObjectId);
+        })
+        .then(() => {
+          router.push('/');
+        })
         .catch((error) => {
           console.error('Failed to create: ', error);
         });

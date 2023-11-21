@@ -2,15 +2,16 @@ import { Image, Row, Col } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useRouter } from 'next/router';
 import { useAuth } from '../utils/context/authContext';
 import { getAllContent } from '../api/spaceContentData';
 
 function Home() {
+  const router = useRouter();
   const { user } = useAuth();
   const [spaceContent, setSpaceContent] = useState([]);
 
   console.log(spaceContent);
-  console.log(user);
 
   useEffect(() => {
     getAllContent()
@@ -21,6 +22,10 @@ function Home() {
   }, []);
 
   const sortedSpaceContent = spaceContent.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
+
+  const handleViewButtonClick = (contentId) => {
+    router.push(`/${contentId}`);
+  };
 
   return (
     <div className="mt-5">
@@ -49,7 +54,7 @@ function Home() {
                 <Card.Title>{content.title}</Card.Title>
                 <Card.Text>{content.description}</Card.Text>
               </Card.Body>
-              <Button variant="primary" size="sm" className="position-absolute bottom-0 end-0 m-1">
+              <Button variant="primary" size="sm" className="position-absolute bottom-0 end-0 m-1" onClick={() => handleViewButtonClick(content.contentId)}>
                 View
               </Button>
               <Card.Footer className="text-muted">
