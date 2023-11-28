@@ -4,14 +4,12 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useRouter } from 'next/router';
 import { useAuth } from '../utils/context/authContext';
-import { getAllContent } from '../api/spaceContentData';
+import { getAllContent, deleteContent } from '../api/spaceContentData';
 
 function Home() {
   const router = useRouter();
   const { user } = useAuth();
   const [spaceContent, setSpaceContent] = useState([]);
-
-  console.log(spaceContent);
 
   useEffect(() => {
     getAllContent()
@@ -27,6 +25,17 @@ function Home() {
     router.push(`/${contentId}`);
   };
 
+  const handleEditButtonClick = (contentId) => {
+    router.push(`/edit/${contentId}`);
+  };
+
+  const handleDeleteButtonClick = (contentId) => {
+    if (window.confirm('Are you sure you want to delete this post?')) {
+      deleteContent(contentId);
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="mt-5">
       <Row>
@@ -38,6 +47,9 @@ function Home() {
             style={{ width: '100px', height: '100px' }}
           />
           <h2 style={{ color: 'white' }}>{user.fbUser.displayName}</h2>
+        </Col>
+        <Col xs={4} className="text-center">
+          <h1 className="display-2 text-white fw-bold" style={{ marginLeft: '25px' }}>Space Book</h1>
         </Col>
       </Row>
 
@@ -54,9 +66,31 @@ function Home() {
                 <Card.Title>{content.title}</Card.Title>
                 <Card.Text>{content.description}</Card.Text>
               </Card.Body>
-              <Button variant="primary" size="sm" className="position-absolute bottom-0 end-0 m-1" onClick={() => handleViewButtonClick(content.contentId)}>
-                View
-              </Button>
+              <div className="d-flex position-absolute bottom-0 end-0">
+                <Button variant="success" size="sm" className="m-1" onClick={() => handleViewButtonClick(content.contentId)}>
+                  View
+                </Button>
+                {user && content.user.userId === user.userId && (
+                  <>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="m-1"
+                      onClick={() => handleEditButtonClick(content.contentId)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      className="m-1"
+                      onClick={() => handleDeleteButtonClick(content.contentId)}
+                    >
+                      Delete
+                    </Button>
+                  </>
+                )}
+              </div>
               <Card.Footer className="text-muted">
                 Posted On: {new Date(content.createdOn).toLocaleDateString()}{' '}
               </Card.Footer>

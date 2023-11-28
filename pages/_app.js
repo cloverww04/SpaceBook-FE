@@ -4,7 +4,15 @@ import '../styles/globals.css';
 import { AuthProvider } from '../utils/context/authContext';
 import ViewDirectorBasedOnUserAuthStatus from '../utils/ViewDirector';
 
+function getRandomPosition() {
+  const getRandomPercentage = () => `${Math.random() * 100}%`;
+  return { top: getRandomPercentage(), left: getRandomPercentage() };
+}
+
 function MyApp({ Component, pageProps }) {
+  const stars = Array.from({ length: 100 }, (_, index) => (
+    <div key={index} className="star" style={getRandomPosition()} />
+  ));
   return (
     <AuthProvider>
       {' '}
@@ -16,6 +24,7 @@ function MyApp({ Component, pageProps }) {
         component={Component}
         pageProps={pageProps}
       />
+      {stars}
     </AuthProvider>
   );
 }

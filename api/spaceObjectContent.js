@@ -21,14 +21,14 @@ export const createSpaceObjectContent = (contentId, soId) => new Promise((resolv
     .catch(reject);
 });
 
-export const updateSpaceObjectContent = (contentId, soId) => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/api/spaceobjectcontent/update/${contentId}/${soId}`, {
+export const updateSpaceObjectContent = (payload) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/spaceobjectcontent/update/${payload.spaceObjectContent[0]?.spaceObjectContentId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({ contentId, soId }),
+    body: JSON.stringify(payload),
   })
     .then(async (res) => {
       let data;

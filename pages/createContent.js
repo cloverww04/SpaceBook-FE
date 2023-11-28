@@ -3,7 +3,7 @@ import ContentForm from '../components/ContentForm';
 
 const CreateContent = () => (
   <div>
-    <h1>Create a Post</h1>
+    <h1 style={{ color: 'white' }}>Create Content</h1>
     <ContentForm />
   </div>
 );

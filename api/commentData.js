@@ -2,50 +2,14 @@ import { clientCredentials } from '../utils/client';
 
 const dbUrl = clientCredentials.databaseURL;
 
-export const getAllContent = () => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/api/spacecontent`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  })
-    .then(async (res) => {
-      let data;
-      if (res.ok) {
-        data = await res.json();
-        resolve(data);
-      }
-    })
-    .catch(reject);
-});
-
-export const getSingleContent = (id) => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/api/spacecontent/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  })
-    .then(async (res) => {
-      let data;
-      if (res.ok) {
-        data = await res.json();
-        resolve(data);
-      }
-    })
-    .catch(reject);
-});
-
-export const createContent = (payload) => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/api/spacecontent/create`, {
+export const createComment = (id, commentData) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/comment/create/${id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(commentData),
   })
     .then(async (res) => {
       let data;
@@ -57,8 +21,26 @@ export const createContent = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export const updateContent = (payload) => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/api/spacecontent/update/${payload.contentId}`, {
+export const getComments = (id) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/comment/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  })
+    .then(async (res) => {
+      let data;
+      if (res.ok) {
+        data = await res.json();
+        resolve(data);
+      }
+    })
+    .catch(reject);
+});
+
+export const updateComments = (id, payload) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/comment/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -76,8 +58,8 @@ export const updateContent = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export const deleteContent = (id) => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/api/spacecontent/delete/${id}`, {
+export const deleteComment = (id) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/api/comment/remove/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

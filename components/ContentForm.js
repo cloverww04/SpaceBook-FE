@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
@@ -28,14 +29,21 @@ export default function ContentForm({ obj }) {
     getAllObjects().then(setSpaceObject);
     getAllType().then(setType);
     checkUser(user.uid).then(setUser);
-  }, [user]);
-  console.log('USER: ', user);
-  console.log('SPACEOBJECT: ', spaceObject);
-  console.log('TYPE: ', type);
+
+    if (obj.contentId) {
+      setFormData({
+        title: obj.title,
+        description: obj.description,
+        typeId: obj.typeId,
+        spaceObjectId: obj.spaceObjectContents[0]?.spaceObjectId,
+        spaceObject: obj.spaceObject,
+        spaceObjectContent: obj.spaceObjectContents,
+      });
+    }
+  }, [user, obj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(`name: ${name}, value: ${value}`);
 
     setFormData((prevState) => ({
       ...prevState,
@@ -46,17 +54,23 @@ export default function ContentForm({ obj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (obj.id) {
-      const payload = { ...formData, contentId: obj.id };
+    if (obj.contentId) {
+      const payload = {
+        ...formData, contentId: obj.contentId,
+      };
       updateContent(payload)
-        .then((response) => updateSpaceObjectContent(response.id, response.spaceObjectId))
-        .then(router.push('/'));
+        .then(() => {
+          console.log('RESPONSE: ', payload);
+          return updateSpaceObjectContent(payload);
+        })
+        .then(() => router.push('/'))
+        .catch((error) => {
+          console.error('Failed to update: ', error);
+        });
     } else {
       const payload = { ...formData, createdOn: new Date(Date.now()), userId: user.userId };
-      console.log('PAYLOAD: ', payload);
       createContent(payload)
         .then((response) => {
-          console.log('RESPONSE: ', response);
           const createdContentId = response.contentId;
           return createSpaceObjectContent(createdContentId, formData.spaceObjectId);
         })
@@ -101,7 +115,7 @@ export default function ContentForm({ obj }) {
             name="typeId"
             onChange={handleChange}
             className="mb-3"
-            value={formData.id}
+            value={formData.typeId}
           >
             <option value="">Select a category</option>
             {
@@ -141,7 +155,7 @@ export default function ContentForm({ obj }) {
 
         {/* SUBMIT BUTTON  */}
 
-        <Button type="submit" className="btn-secondary mt-2">{obj.id ? 'Update' : 'Create'} Post</Button>
+        <Button type="submit" className="btn-secondary mt-2">{obj.contentId ? 'Update' : 'Create'} Post</Button>
       </Form>
     </>
   );
@@ -155,6 +169,9 @@ ContentForm.propTypes = {
     description: PropTypes.string,
     spaceObjectId: PropTypes.number,
     userId: PropTypes.number,
+    typeId: PropTypes.number,
+    spaceObject: PropTypes.object,
+    spaceObjectContents: PropTypes.array,
   }),
 };
 ContentForm.defaultProps = {
