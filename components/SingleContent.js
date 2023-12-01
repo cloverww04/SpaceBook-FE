@@ -59,7 +59,7 @@ const SingleContent = ({ contentId }) => {
     } catch (error) {
       console.error('Error creating/updating comment:', error);
     }
-    window.location.reload();
+    // window.location.reload();
   };
 
   useEffect(() => {
@@ -71,10 +71,9 @@ const SingleContent = ({ contentId }) => {
         const commentsData = await getComments(contentId);
         const sortedComments = commentsData.slice().sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate));
 
-        setCommments(sortedComments);
-
         const userPromises = sortedComments.map((comment) => fetchUserName(comment.userId));
         const resolvedUserNames = await Promise.all(userPromises);
+        setCommments(sortedComments);
         setUserNames(resolvedUserNames);
       } catch (error) {
         console.error('Error fetching content and comments:', error);
@@ -82,7 +81,7 @@ const SingleContent = ({ contentId }) => {
     };
 
     fetchData();
-  }, [contentId, comments.length]);
+  }, [contentId, comments.length, editComment]);
 
   const formatDate = (dateTimeString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };

@@ -18,6 +18,8 @@
     ]
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.0",
+    "@fortawesome/free-solid-svg-icons": "^6.5.0",
     "@nextui-org/react": "^2.2.9",
     "axios": "^1.6.2",
     "bootstrap": "^5.1.3",

@@ -1,25 +1,32 @@
-import { Image, Row, Col } from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { Col, Image, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { useRouter } from 'next/router';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import { deleteContent, getAllContent } from '../api/spaceContentData';
 import { useAuth } from '../utils/context/authContext';
-import { getAllContent, deleteContent } from '../api/spaceContentData';
 
 function Home() {
   const router = useRouter();
   const { user } = useAuth();
   const [spaceContent, setSpaceContent] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [searchCriteria, setSearchCriteria] = useState({
+    user: '',
+    type: '',
+    spaceObject: '',
+  });
 
   useEffect(() => {
     getAllContent()
       .then((data) => {
         setSpaceContent(data);
+        setFilteredResults(data);
       })
       .catch((error) => console.error(error));
   }, []);
-
-  const sortedSpaceContent = spaceContent.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
 
   const handleViewButtonClick = (contentId) => {
     router.push(`/${contentId}`);
@@ -34,6 +41,29 @@ function Home() {
       deleteContent(contentId);
       window.location.reload();
     }
+  };
+
+  const handleSearchChange = (event) => {
+    const { name, value } = event.target;
+    setSearchCriteria((prevCriteria) => ({ ...prevCriteria, [name]: value }));
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+
+    // Filter spaceContent based on search criteria
+    const filtered = spaceContent.filter((content) => {
+      const userFullName = `${content.user.firstName} ${content.user.lastName}`.toLowerCase();
+      const searchValue = searchCriteria.search.toLowerCase();
+
+      return (
+        userFullName.includes(searchValue)
+        || (content.type
+          && content.type.type.toLowerCase().includes(searchValue))
+      );
+    });
+
+    setFilteredResults(filtered);
   };
 
   return (
@@ -52,11 +82,33 @@ function Home() {
           <h1 className="display-2 text-white fw-bold" style={{ marginLeft: '25px' }}>Space Book</h1>
         </Col>
       </Row>
+      <Row className="mt-3 justify-content-center">
+        <Col xs={8}>
+          <Form className="mb-3" onSubmit={handleSearchSubmit}>
+            <Row className="g-2">
+              <Col>
+                <FormControl
+                  type="text"
+                  placeholder="Search by User or Tag"
+                  name="search"
+                  value={searchCriteria.search}
+                  onChange={handleSearchChange}
+                />
+              </Col>
+              <Col>
+                <Button variant="primary" type="submit">
+                  Search
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Col>
+      </Row>
 
       {/* Right Section: Display usersGeneratedSpaceContent with spaceObjects */}
       <Row className="mt-3 justify-content-center">
         <Col xs={8}>
-          {sortedSpaceContent.map((content) => (
+          {filteredResults.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn)).map((content) => (
             <Card key={content.contentId} className="text-center mb-4">
               <Card.Text className="position-absolute top-0 end-1 m-2">
                 Posted by: {content.user.firstName} {content.user.lastName}

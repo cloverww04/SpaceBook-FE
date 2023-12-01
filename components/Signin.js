@@ -15,10 +15,12 @@ function Signin() {
         width: '100%',
         minWidth: '30rem',
         paddingBlock: '0 5rem',
+        color: 'white',
+        maxWidth: '400px',
       }}
     >
-      <h1>Hi there!</h1>
-      <p>Click the button below to login!</p>
+      <h1 style={{ color: 'white' }}>Hi there!</h1>
+      <p style={{ color: 'white' }}>Click the button below to login!</p>
       <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
         Sign In
       </Button>

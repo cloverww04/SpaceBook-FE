@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Navbar, //
@@ -7,9 +7,22 @@ import {
   Nav,
   Button,
 } from 'react-bootstrap';
-import { signOut } from '../utils/auth';
+import { checkUser, signOut } from '../utils/auth';
+import { useAuth } from '../utils/context/authContext';
 
 export default function NavBar() {
+  const { user } = useAuth();
+  const [, setUser] = useState({});
+
+  useEffect(() => {
+    checkUser(user.uid).then(setUser);
+  }, [user]);
+
+  if (user.notFound === true) {
+    return null;
+  }
+
+  console.log(user);
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
