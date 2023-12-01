@@ -4,7 +4,7 @@ Space-Book
 # Overview
 This is a full stack application for Nashville Software School demonstrating CRUD with different relationships, such as one-to-many and many-to-many. It also uses a database set up with PostgreSQL with minimal api calls that I created using C# in order to execute many different features inside the application.
 
-#Features
+# Features
 - Users can sign in if authenticated, or register if they are new to the page
 - Create posts about any of their favorite space related topics
 - They can tag posts helping others to view what their content is related to
