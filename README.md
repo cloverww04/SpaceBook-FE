@@ -1,44 +1,39 @@
-# React/Next.js Django Auth Template
+# Project Name
+Space-Book
 
-## Topics
-- [Get Started](#getting-started)
-- [Starting the Project](#starting-the-project)
-___
-## Getting Started
-### Use Template
-#### 1. To get started, click the GREEN "Use this Template" button at the top of the repo
-<img width="915" alt="Screen Shot 2022-07-06 at 12 54 01 PM" src="https://user-images.githubusercontent.com/29741570/177612998-4aac9237-5a1e-4f13-8ae0-468587521564.png">
+# Overview
+This is a full stack application for Nashville Software School demonstrating CRUD with different relationships, such as one-to-many and many-to-many. It also uses a database set up with PostgreSQL with minimal api calls that I created using C# in order to execute many different features inside the application.
 
-#### 2. Make sure YOUR github account is selected in the dropdown and name your project
-<img width="763" alt="Screen Shot 2022-07-06 at 12 54 48 PM" src="https://user-images.githubusercontent.com/29741570/177613126-dd38f678-7553-4f27-8a4a-75680f14d71e.png">
+#Features
+- Users can sign in if authenticated, or register if they are new to the page
+- Create posts about any of their favorite space related topics
+- They can tag posts helping others to view what their content is related to
+- Comment on other users post
+- Edit their own posts keeping the information up to date
+- Delete posts if they no longer wish to share it
+- Search posts based on users and tags
 
-#### 3. Clone your new repo to your local machine
-#### 4. Go to the **NEXT** section
+# Screenshots
 
-## Starting the Project
-1. Create a Firebase project and set up authentication. Use [these videos](https://vimeo.com/showcase/codetracker-firebase) as a refresher if needed.
-1. Create a `.env` file at the root of the project
-1. Copy/Paste the contents of the `.env.sample` file to your newly created `.env` file.
-1. Copy over all of your Firebase values into the `.env` file.
-1. Open the `package.json` file and change the `name` property to the name of your application, and `author` to  your name.
-1. From your command line, be in the root directory and run `npm install` OR `npm i` for short.
-1. Next, run `npm run prepare`. This command sets up husky to track eslint errors on commit that will make your deploy fail on Netlify.
-1. To start your application, run `npm run dev`. THIS IS THE COMMAND YOU WILL USE TO RUN YOUR DEVELOPMENT SERVER FROM NOW ON.
-1. Open [http://localhost:3000](http://localhost:3000) with your browser.
+## Sign In Page
+![SignInPage](https://github.com/cloverww04/SpaceBook-FE/assets/84203439/339cb2ed-959d-4759-ad41-a32c6ff38ea9)
 
-### If you see this, you are set to go!
-<img width="450" alt="Screen Shot 2022-07-06 at 1 07 27 PM" src="https://user-images.githubusercontent.com/29741570/177615077-9b6a75bc-0260-4d29-bb88-bd95a3140687.png">
+## Home Page
+![HomePage](https://github.com/cloverww04/SpaceBook-FE/assets/84203439/80fb447a-5589-44a1-b734-fbf28e08f7e7)
+
+## Search
+![SearchContent](https://github.com/cloverww04/SpaceBook-FE/assets/84203439/796dcf88-08f8-401b-b5d3-f4622dde27ca)
+
+## View Content
+![ViewContent](https://github.com/cloverww04/SpaceBook-FE/assets/84203439/87573fde-099c-4db9-b4d5-2c80270ea5be)
+
+## Create Content
+![CreateContent](https://github.com/cloverww04/SpaceBook-FE/assets/84203439/3a8a8081-a041-4173-b499-cb6b31500c94)
+
+## Edit Content
+![EditContent](https://github.com/cloverww04/SpaceBook-FE/assets/84203439/5d2cc0fc-6662-44df-a4ea-749c9c7e84de)
 
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+# Profile
 
-**NOTES:** 
-- If you see the following error, you did not follow all the setup steps correctly and failed to add your Firebase creds. Go back and do that NOW.
-
-<img width="1043" alt="Screen Shot 2022-07-06 at 11 18 45 AM" src="https://user-images.githubusercontent.com/29741570/177612501-c2628f18-4bbd-4de9-aae6-27ffba1172d6.png">
-        
-## Learn More about Next.js
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[Nathan Clover](https://github.com/cloverww04)
